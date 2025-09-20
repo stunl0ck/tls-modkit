@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	  <TargetFramework>netstandard2.0</TargetFramework>
+	  <LangVersion>9.0</LangVersion>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GameManagedDir>C:\Program Files (x86)\Steam\steamapps\common\The Last Spell\The Last Spell_Data\Managed</GameManagedDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+	  <PackageReference Include="BepInEx.Core" Version="5.*" />
+	  <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+	  <PackageReference Include="UnityEngine.Modules" Version="2018.4.36" IncludeAssets="compile" />
+	  <PackageReference Include="HarmonyX" Version="2.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="all" />
+    <!-- Game assemblies from the installed Managed folder -->
+    <Reference Include="TheLastStand">
+      <HintPath>$(GameManagedDir)\TheLastStand.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Framework">
+      <HintPath>$(GameManagedDir)\Framework.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TPLib">
+      <HintPath>$(GameManagedDir)\TPLib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>$(GameManagedDir)\Sirenix.Serialization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <!-- stunl0ck binaries-->
+    <Reference Include="TLS.Shared" HintPath="libs/TLS.Shared.dll" />
+    <Reference Include="ModConfigManager" HintPath="libs/ModConfigManager.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+	  <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
