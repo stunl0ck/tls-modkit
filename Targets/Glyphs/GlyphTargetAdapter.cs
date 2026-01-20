@@ -69,6 +69,7 @@ namespace Stunl0ck.TLS.ModKit.Targets.Glyphs
             }
 
             // Update runtime icon override registry based on presence of <IconOverride>.
+            // (Not recommended) - Consider decomissioning
             if (!string.IsNullOrWhiteSpace(iconOverridePath))
             {
                 GlyphIconOverrides.Set(id, iconOverridePath);

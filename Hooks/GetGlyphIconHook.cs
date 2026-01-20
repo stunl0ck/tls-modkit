@@ -10,6 +10,7 @@ using Stunl0ck.TLS.ModKit.Runtime;
 namespace Stunl0ck.TLS.ModKit.Hooks
 {
     /// <summary>
+    /// (Not recommended) - Consider decomissioning
     /// Postfix for GetGlyphIcon(GlyphDefinition):
     /// 1) If a disk-loaded sprite exists for this glyph id, return it.
     /// 2) Else, if an IconOverride path is registered, try loading that sprite.
@@ -59,7 +60,7 @@ namespace Stunl0ck.TLS.ModKit.Hooks
                 return;
             }
 
-            // 2) Optional: string-path override to a Resources key (must already match orb sizing)
+            // 2) Optional (Not recommended): string-path override to a Resources key (must already match orb sizing)
             // e.g. <IconOverride Path=view\sprites\ui\meta\glyphs\orbs\Glyphs_Orbs_Easy_WealthyHaven"/>
             //  works with Assets\Resources\, Assets\Resources\views, etc.
             if (GlyphIconOverrides.TryGet(id, out var rawPath) && !string.IsNullOrWhiteSpace(rawPath))

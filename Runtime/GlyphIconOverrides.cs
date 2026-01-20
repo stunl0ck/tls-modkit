@@ -7,6 +7,7 @@ namespace Stunl0ck.TLS.ModKit.Runtime
     /// Runtime registry for glyph icon overrides: glyphId -> Resources path.
     /// The path should be a Unity Resources key (no file extension),
     /// e.g. "view/sprites/ui/perks/Specialist".
+    /// (Not recommended) - Consider decomissioning
     /// </summary>
     internal static class GlyphIconOverrides
     {

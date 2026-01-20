@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Stunl0ck.TLS.ModKit.Targets.Glyphs;
 using Stunl0ck.TLS.ModKit.Targets.Perks;  
+using Stunl0ck.TLS.ModKit.Targets.Items;  
+using Stunl0ck.TLS.ModKit.Targets.Skills;  
 
 namespace Stunl0ck.TLS.ModKit.Targets
 {
@@ -12,6 +14,8 @@ namespace Stunl0ck.TLS.ModKit.Targets
             {
                 ["GlyphDefinition"] = new GlyphTargetAdapter(),
                 ["PerkDefinition"] = new PerkTargetAdapter(),
+                ["ItemDefinition"] = new ItemTargetAdapter(),
+                ["SkillDefinition"] = new SkillTargetAdapter(),
             };
 
         public static ITargetAdapter Resolve(string targetId)
