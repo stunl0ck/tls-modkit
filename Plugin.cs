@@ -32,12 +32,6 @@ namespace Stunl0ck.TLS.ModKit
             // --- Load disk PNG icons from EVERY plugin folder under BepInEx/plugins/* ---
             int loadedTotal = LoadIconsFromAllMods();
             Log?.LogInfo($"[ModKit] Disk icon load complete. Total loaded: {loadedTotal}.");
-            var testKeyFG = "View/Sprites/UI/Items/Icons/Foreground/UI_Icon_Items_LightningBlade_FG";
-            if (ItemDiskOverrides.TryGet(testKeyFG, out var sp) && sp)
-                Plugin.Log?.LogInfo("[SmokeTest] ItemDiskOverrides HAS " + testKeyFG);
-            else
-                Plugin.Log?.LogError("[SmokeTest] MISS " + testKeyFG + " (not registered)");
-
 
             // --- Harmony patches ---
             Harmony.CreateAndPatchAll(typeof(Hooks.GlyphDatabaseHooks));   // DB-ready hook

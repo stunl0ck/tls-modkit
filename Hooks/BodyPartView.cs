@@ -56,17 +56,12 @@ namespace Stunl0ck.TLS.ModKit.Hooks
             ref Sprite __result)
         {
             // keep vanilla behavior if null
-            if (bodyPart == null)
-            {
-                Plugin.Log?.LogWarning("[ModKit][BodyPart] GetSprite called with NULL bodyPart (letting vanilla handle).");
-                return true;
-            }
+            if (bodyPart == null) return true;
 
             // vanilla early-out: hidden parts
             if (bodyPart.AdditionalConstraints != null &&
                 bodyPart.AdditionalConstraints.Contains("Hide"))
             {
-                Plugin.Log?.LogInfo($"[ModKit][BodyPart] Hidden part '{bodyPart.BodyPartDefinition?.Id ?? "(unknown)"}' → skip.");
                 return true; // vanilla will return null
             }
 
@@ -82,18 +77,17 @@ namespace Stunl0ck.TLS.ModKit.Hooks
                 return true; // fall back to vanilla
             }
 
-            var bpId = bodyPart.BodyPartDefinition?.Id ?? "(unknown)";
-            var oStr = OrientationToString(orientation);
-
-            // PROBE
-            Plugin.Log?.LogInfo($"[ModKit][BodyPart] Probe bp='{bpId}' face='{faceId}' gender='{gender}' orient={oStr} → key='{(key ?? "<null>")}'");
-
             if (string.IsNullOrEmpty(key))
                 return true; // vanilla will return null
 
             if (ItemDiskOverrides.TryGet(key, out var custom) && custom)
             {
                 __result = custom;
+                var bpId = bodyPart.BodyPartDefinition?.Id ?? "(unknown)";
+                var oStr = OrientationToString(orientation);
+
+                Plugin.Log?.LogInfo($"[ModKit][BodyPart] Override HIT → key='{key}' bp='{bpId}' face='{faceId}' gender='{gender}' orient={oStr}");
+
                 // also dump sizing so you can confirm PPU / pivot results
                 var r = custom.rect;
                 var ppu = custom.pixelsPerUnit;
