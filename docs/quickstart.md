@@ -1,22 +1,29 @@
 
 # TLS.ModKit — Quick Start
 
-> This guide is for **v1.0.0** of TLS.ModKit. If something looks off, check the README for updates.
+> This guide targets **v1.0.x** of TLS.ModKit. If something looks off, check the README for updates.
 
 
-## What v1.0.0 Supports (Today)
+## What v1.0.x Supports (Today)
 
 > *Note: Omens are referred to as Glyphs in the game files*.
 
 ### Targets
 - **GlyphDefinition** (via `Targets/Glyphs/GlyphTargetAdapter`)
 - **PerkDefinition** (via `Targets/Perks/PerkTargetAdapter`)
+- **SkillDefinition** (via `Targets/Skills/SkillsTargetAdapter`)
+- **ItemDefinition** (via `Targets/Items/ItemTargetAdapter`)
+- **CityStash** (via `Targets/CityStash/CityStashTargetAdapter`)
 
 ### Actions
-- **add** — parse the provided `<GlyphDefinition>` / `<PerkDefinition>` and **insert** (or **replace** if `replace="true"`).
+- **add** — parse the provided `<…Definition>` and **insert** (or **replace** if `replace="true"`).
 - **remove** — delete by `id`.
-- **edit** — **token-only** edits for `PerkDefinition` (modify values in its token bag).  
-  Token edits let you tweak *balance knobs* (numbers/flags) that the perk already parameterizes via tokens.
+- **replace** — replace a full definition by `id` (safest for structural changes).
+- **edit** — apply `<Set .../>` operations:
+  - `PerkDefinition`: token-only edits (modify values in its token bag).
+  - `SkillDefinition`: best-effort field/property edits (simple values).
+  - `ItemDefinition`: `edit` is not implemented (use `replace`).
+  - `CityStash`: `edit` is not supported (use `add`).
 
 
 ## Token Edit Selector (PerkDefinition)
@@ -57,7 +64,7 @@ Alternatively, inside a `<GlyphDefinition>`, you can reference a game sprite (or
 ```
 BepInEx/plugins/<YourMod>/ModKit/
   Icons/
-    *.patch.xml
+    *.png
 ```
 
 ## "Native" XML Layouts (Copy/Paste Patterns)
@@ -124,9 +131,7 @@ BepInEx/plugins/<YourMod>/ModKit/
 
 ```xml
 <Patch target="PerkDefinition" action="edit" id="IntoTheWild">
-  <Operations>
-    <Set select="token:StatMalus" value="0"/>
-  </Operations>
+  <Set select="token:StatMalus" value="0"/>
 </Patch>
 ```
 
@@ -164,8 +169,14 @@ BepInEx/plugins/<YourMod>/ModKit/
     *.patch.xml
   Perks/
     *.patch.xml
-  Icons/
+  Skills/
     *.patch.xml
+  Items/
+    *.patch.xml
+  CityStash/
+    *.patch.xml
+  Icons/
+    *.png
 ```
 
 The engine auto-discovers and applies patches when each database deserializes.
@@ -173,9 +184,41 @@ The engine auto-discovers and applies patches when each database deserializes.
 ## TL;DR
 
 - **add / remove** for straightforward insert/delete.
-- **edit** for **TokenVariables** tweaks in `PerkDefinition`, `GlyphDefinition` (e.g., `StatMalus`, `AccuracyBonus`, etc.).
+- **edit** for **TokenVariables** tweaks in `PerkDefinition` (e.g., `StatMalus`, `AccuracyBonus`, etc.) and simple `SkillDefinition` fields.
 - **replace** for structural/UI/Loc changes.
 - **MCM values** and **glyph icon overrides** are supported directly in XML.
+
+## Runtime Patch: City Stash (NewGame only)
+
+This target runs only when starting a **new run** (game state `NewGame`). It adds items into the **city stash**.
+
+**File:** `ModKit/CityStash/starter_items.patch.xml`
+
+```xml
+<Patch target="CityStash" action="add">
+  <Definition>
+    <Item Id="LightningBlade" Qty="1" Level="0" Rarity="Common"/>
+  </Definition>
+</Patch>
+```
+
+Notes:
+- `Id` must exist in `ItemDatabase` (use an `ItemDefinition` patch if you’re adding a custom item).
+- Defaults: `Qty=1`, `Level=0`, `Rarity=Common`.
+
+## Advanced Examples
+
+- **Omen of Specialists** — a clean example of a custom glyph + perk setup, and how to handle cases that require a tiny helper plugin.  
+  Repo: <https://github.com/stunl0ck/tls-omen-of-specialists>
+
+- **Lightning Blade** — a “full stack” example: custom item + skills + icons, plus how to wire optional config (MCM) for gameplay toggles.  
+  Repo: <https://github.com/stunl0ck/tls-lightning-blade>
+
+If you’re adding a custom weapon, these are the main folders to study:
+- `ModKit/Items/*.patch.xml` (ItemDefinition)
+- `ModKit/Skills/*.patch.xml` (SkillDefinition)
+- `ModKit/Icons/*.png` (UI + hand sprites)
+- `ModKit/CityStash/*.patch.xml` (starter items on new runs)
 
 
 ## Tools & Tips

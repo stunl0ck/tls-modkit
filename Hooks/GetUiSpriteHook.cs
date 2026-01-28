@@ -16,6 +16,8 @@ namespace Stunl0ck.TLS.ModKit.Hooks
     [HarmonyPatch]
     internal static class GetUiSpriteHook
     {
+        private static readonly HashSet<string> LoggedUiHits = new HashSet<string>();
+
         // Find all matching methods in the game assembly (robust against class name moves)
         static IEnumerable<MethodBase> TargetMethods()
         {
@@ -59,7 +61,9 @@ namespace Stunl0ck.TLS.ModKit.Hooks
             if (ItemDiskOverrides.TryGet(key, out var custom) && custom)
             {
                 __result = custom;
-                Plugin.Log?.LogInfo($"[ModKit][Icons] Override HIT → {key}");
+                // Avoid log spam: this function can be called many times per frame in some UI paths.
+                if (LoggedUiHits.Add(key))
+                    Plugin.Log?.LogInfo($"[ModKit][Icons] Override HIT → {key}");
                 return false; // skip vanilla load
             }
 

@@ -17,6 +17,8 @@ namespace Stunl0ck.TLS.ModKit.Hooks
     [HarmonyPatch]
     internal static class BodyPartView_GetSprite_Hook
     {
+        private static readonly HashSet<string> LoggedBodyPartHits = new HashSet<string>();
+
         // Robust target finder: any static Sprite GetSprite(BodyPart, string, string, BodyPartDefinition.E_Orientation)
         static IEnumerable<MethodBase> TargetMethods()
         {
@@ -86,12 +88,9 @@ namespace Stunl0ck.TLS.ModKit.Hooks
                 var bpId = bodyPart.BodyPartDefinition?.Id ?? "(unknown)";
                 var oStr = OrientationToString(orientation);
 
-                Plugin.Log?.LogInfo($"[ModKit][BodyPart] Override HIT → key='{key}' bp='{bpId}' face='{faceId}' gender='{gender}' orient={oStr}");
-
-                // also dump sizing so you can confirm PPU / pivot results
-                var r = custom.rect;
-                var ppu = custom.pixelsPerUnit;
-                Plugin.Log?.LogInfo($"[ModKit][BodyPart] Override HIT → {key} | px=({r.width}x{r.height}) ppu={ppu:0.###} pivot=({custom.pivot.x:0.###},{custom.pivot.y:0.###})");
+                // Avoid log spam: bodypart sprites can be queried frequently.
+                if (LoggedBodyPartHits.Add(key))
+                    Plugin.Log?.LogInfo($"[ModKit][BodyPart] Override HIT → key='{key}' bp='{bpId}' face='{faceId}' gender='{gender}' orient={oStr}");
                 return false; // skip vanilla ResourcePooler.LoadOnce
             }
 

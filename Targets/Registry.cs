@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Stunl0ck.TLS.ModKit.Targets.Glyphs;
+using Stunl0ck.TLS.ModKit.Targets.CityStash;
 using Stunl0ck.TLS.ModKit.Targets.Perks;  
 using Stunl0ck.TLS.ModKit.Targets.Items;  
 using Stunl0ck.TLS.ModKit.Targets.Skills;  
@@ -16,6 +17,7 @@ namespace Stunl0ck.TLS.ModKit.Targets
                 ["PerkDefinition"] = new PerkTargetAdapter(),
                 ["ItemDefinition"] = new ItemTargetAdapter(),
                 ["SkillDefinition"] = new SkillTargetAdapter(),
+                ["CityStash"] = new CityStashTargetAdapter(),
             };
 
         public static ITargetAdapter Resolve(string targetId)

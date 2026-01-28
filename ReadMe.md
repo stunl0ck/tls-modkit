@@ -17,20 +17,23 @@
 
 **Current support:**
 
-- **Perks**
-  - **Add** new perks
-  - **Remove** existing perks
-  - **Edit** perks using token variables (e.g., `StatMalus`, `AccuracyBonus`) via XML before the game parses them
-- **Omens**
-  - **Add** new omens
-  - **Replace** existing omens
-  - **Icon overrides** (using existing game sprite paths **or** drop a custom PNG in your mod folder)
-
-**Future plans:**
-- Skills
-- Weapons/Armors/Items
-- Custom Races
-- +More!
+- **GlyphDefinition** (Omens)
+  - **add / replace / remove** glyphs (omens)
+- **PerkDefinition**
+  - **add / replace / remove** perks
+  - **edit** perk **TokenVariables** (token-only edits)
+- **SkillDefinition**
+  - **add / replace / remove** skills
+  - **edit** simple fields via `<Set select="..." value="..."/>` (best-effort)
+- **ItemDefinition**
+  - **add / replace / remove** items
+  - `edit` not implemented (use `replace`)
+- **CityStash** (runtime, NewGame only)
+  - **add** items to the city stash via `ModKit/CityStash/*.patch.xml`
+- **Localization**
+  - auto-merge `ModKit/languages.csv` from all plugin folders after the game loads dictionaries
+- **Icons**
+  - drop PNGs under `ModKit/Icons/*.png` to override **glyph** and **item** sprites (UI + hand sprites)
 
 ## Installation
 
@@ -62,6 +65,9 @@
 - **Omen of Specialists** — adds a new Omen that grants the *`Specialist`* perk to all heroes.  
   [Nexus](<https://www.nexusmods.com/thelastspell/mods/32>) · [GitHub](<https://github.com/stunl0ck/tls-omen-of-specialists>)
 
+- **Lightning Blade** — a “full stack” example: custom item + skills + icons, optional MCM setting, and (runtime) adds the item to city stash on new runs.  
+  [GitHub](<https://github.com/stunl0ck/tls-lightning-blade>)
+
 - **Remove Elf Debuff** — edits the `IntoTheWild` perk to remove the damage debuff (`StatMalus = 0`).  
   [Nexus](<https://www.nexusmods.com/thelastspell/mods/29>) · [GitHub](<https://github.com/stunl0ck/tls-remove-elf-debuff>)
 
@@ -79,6 +85,8 @@ The fastest way to learn is to copy an existing mod and tweak it.
 - Browse the example mods above and reuse their folder structure:
   - `ModKit/Perks/*.patch.xml` — add/remove/edit perk **tokens**
   - `ModKit/Glyphs/*.patch.xml` — add/replace glyphs, optional `<IconOverride Path="…"/>`
+  - `ModKit/Skills/*.patch.xml` — add/remove/replace/edit skills
+  - `ModKit/Items/*.patch.xml` — add/remove/replace items
   - `ModKit/Icons/*.png` — optional custom omen icons (auto-loaded)
 
 **Tips & Tools**

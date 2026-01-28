@@ -44,6 +44,7 @@ namespace Stunl0ck.TLS.ModKit
             Harmony.CreateAndPatchAll(typeof(Hooks.SkillDatabaseHooks));
             Harmony.CreateAndPatchAll(typeof(Hooks.BodyPartView_GetSprite_Hook));
             Harmony.CreateAndPatchAll(typeof(Hooks.GetUiSpriteHook));
+            Harmony.CreateAndPatchAll(typeof(Hooks.CityStashHooks));
 
             Log.LogInfo("[ModKit] Plugin initialized.");
         }
